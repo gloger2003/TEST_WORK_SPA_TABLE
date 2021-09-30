@@ -1,0 +1,7 @@
+{
+    "code-runner.executorMap": {
+        "python": "python -u main.py",
+    },
+    "python.linting.pycodestyleEnabled": true,
+    "python.linting.enabled": true
+}

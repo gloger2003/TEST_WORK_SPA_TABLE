@@ -1,0 +1,20 @@
+<h1> 
+    {% if is_last_page %} 
+        Страниц больше нет :)
+    {% endif %}
+</h1>
+<p>
+    {% if not is_last_page %}
+        <p class="page-num-btn">
+            {% for page_num in page_numbers %}
+                {% set btn_class = "btn-page" %}
+                {% set page_index_ = page_num - 1 %}
+
+                {% if page_num == page_index + 1%}
+                    {% set btn_class = "current-btn-page" %}
+                {% endif %}
+                <input type="button" class="{{ btn_class }}" onclick="render_content(JSON.parse('{{ page_index_ | tojson }}'))" value="{{ page_num }}">
+            {% endfor %}
+        </p>
+    {% endif %}
+</p>

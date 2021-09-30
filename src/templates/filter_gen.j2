@@ -1,0 +1,21 @@
+<p>
+    <input type="checkbox" id="filter_enabled" name="filter_enabled">
+
+    <select id="filter_column" name="filter_column">
+        <option value="0">Дата</option>
+        <option value="1">Название</option>
+        <option value="2">Количество</option>
+        <option value="3">Расстояние</option>
+    </select>
+
+    <select id="filter_condition" name="filter_condition">
+        <option value="0">Равно</option>
+        <option value="1">Содержит</option>
+        <option value="2">Больше</option>
+        <option value="3">Меньше</option>
+    </select>
+
+    <input type="text" id="filter_value" name="filter_value">
+
+    <input id="update-filter-btn" type="button" value="↻" onclick="render_content()">
+</p>

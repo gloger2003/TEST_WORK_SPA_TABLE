@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Таблица постов</title>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+</head>
+
+<center>
+    <body>
+        <div id='filter'> 
+            {% include 'filter_gen.j2' %}
+        </div>
+        <div id='table_data'></div>
+        <div id='pagination'></div>
+    </body>
+</center>
+
+<script>
+    function render_pagination() {
+        $.ajax({
+            url: "/render_pagination/",
+            type: "get",
+            success: function(response) {
+                $("#pagination").html(response);
+            },
+            error: function() { alert('Не удалось отобрать страницы!') },
+        });
+    }
+
+    function render_content(page_index, sort_string) {
+        data = {
+            'page_index': page_index,
+            'filter_enabled': filter_enabled.checked,
+            'filter_column': filter_column.value,
+            'filter_condition': filter_condition.value,
+            'filter_value': filter_value.value,
+            'sort_string': sort_string,
+        }
+
+        $.ajax({
+            url: "/render_content/",
+            type: "post",
+            contentType: 'application/json',
+            data: JSON.stringify(data),
+            success: function(response) {
+              $("#table_data").html(response);
+              render_pagination();
+            },
+            error: function() { alert('Непредвиденная ошибка') },
+          });
+    }
+    render_content(0)
+</script>
+
+<style>
+    table {
+        border-collapse: separate;
+        border-radius: 10px;
+        background-color: rgba(0, 0, 0, 0);
+        box-shadow: 0px 0px 5px black;
+    }
+
+    body {
+        background-color: rgb(30, 30, 30);
+    }
+
+    h1, h2, h3 {
+        color: wheat;
+    }
+
+    .td-header {
+        text-align: center;
+        color: wheat;
+        border: 1px solid black;
+        background-color: rgb(50, 50, 50);
+    }
+    .tr-style, .td-style {
+        background-color: rgb(40, 40, 40);
+        color: white;
+        border: 1px solid black;
+        padding: 5px;
+        min-width: 150px;
+    }
+    .tr-style:hover .td-style {
+        background-color: rgb(70, 70, 70);
+    }
+
+    .btn-page, .current-btn-page, #update-filter-btn {
+        height: 30px;
+        min-width: 30px;
+        border-radius: 5px;
+        background-color: rgb(50, 50, 50);
+        color: aliceblue;
+        border: 1px solid rgba(0, 0, 0, 0);
+    }
+    .btn-page:hover, .btn-page:focus, #update-filter-btn:hover {
+        background-color: rgb(70, 70, 70);
+    }
+
+    .current-btn-page {
+        border-radius: 5px;
+        background-color: rgb(30, 30, 30);
+        color: wheat;
+    }
+
+    #filter_column, #filter_condition {
+        height: 30px;
+        border-radius: 5px;
+        background-color: rgb(50, 50, 50);
+        color: wheat;
+    }
+
+    #update-filter-btn {
+        height: 30px;
+    }
+    
+    #filter_value {
+        border-radius: 5px;
+        height: 25px;
+        background-color: rgb(20, 20, 20);
+        border: none;
+        border: 1px solid rgba(0, 0, 0, 0);
+        color: wheat;
+    }
+    #filter_value:focus {
+        border: 1px solid rgb(23, 97, 255);
+        border-radius: 0px;
+        outline: none;
+    }
+
+    .sort-btn {
+        width: 10px;
+        height: 50%;
+        background-color: rgb(50, 50, 50);
+        color: wheat;
+        border: none;
+        font-size: 10px;
+        padding: 0px;
+    }
+    .sort-btn:hover {
+        color: white;
+    }
+
+    tr:first-child td:first-child { border-top-left-radius: 10px; }
+    tr:first-child td:last-child { border-top-right-radius: 10px; }
+    tr:last-child td:first-child { border-bottom-left-radius: 10px; }
+    tr:last-child td:last-child { border-bottom-right-radius: 10px; }
+    
+</style>
+
+</html>
